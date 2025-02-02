@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Wheat, HandCoins, User, Mail, Phone, MapPin } from "lucide-react";
+import {
+  Wheat,
+  HandCoins,
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Loader2,
+} from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +22,7 @@ export default function OnboardingForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<signinFormSchemaType>({
     resolver: zodResolver(signinFormSchema),
   });
@@ -35,10 +43,14 @@ export default function OnboardingForm() {
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log("error ", error.response?.data.msg);
-        toast.error("Email Already Exists");
+        if (error.response?.data.msg) toast.error(error.response?.data.msg);
+        else {
+          console.log(error);
+          toast.error("Internal server error");
+        }
+        return;
       }
       //xtodo add toast
-      else console.log(error);
     }
     console.log("submitted data", {
       ...data,
@@ -169,9 +181,15 @@ export default function OnboardingForm() {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-secondaryGreen hover:bg-primaryGreen focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryGreen transition-colors"
+            className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-secondaryGreen hover:bg-primaryGreen focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryGreen transition-colors ${
+              isSubmitting ? "pointer-events-none" : ""
+            }`}
           >
-            Create Account
+            {isSubmitting ? (
+              <Loader2 className="animate-spin mx-auto" />
+            ) : (
+              "Create Account"
+            )}
           </button>
         </form>
       </div>
