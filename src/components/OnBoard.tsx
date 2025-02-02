@@ -4,8 +4,13 @@ import { useUser } from "@clerk/clerk-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signinFormSchema, signinFormSchemaType } from "../interface/interface";
+import axios, { AxiosError } from "axios";
+// import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export default function OnboardingForm() {
+  const redirect = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,9 +20,32 @@ export default function OnboardingForm() {
   });
   const [userType, setUserType] = useState<"farmer" | "buyer">("farmer");
   const { user } = useUser();
-  const onSubmit = handleSubmit((data) => {
-    console.log("submitted data", { ...data, userType });
-    // todo push user to db
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const resp = await axios.post("/users", {
+        ...data,
+        userType,
+        email: user?.primaryEmailAddress?.emailAddress,
+      });
+      const respData = await resp.data;
+
+      // console.log(respData);
+      toast.success(respData.msg);
+      redirect("/");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log("error ", error.response?.data.msg);
+        toast.error("Email Already Exists");
+      }
+      //xtodo add toast
+      else console.log(error);
+    }
+    console.log("submitted data", {
+      ...data,
+      userType,
+      email: user?.primaryEmailAddress?.emailAddress,
+    });
+    //xtodo push user to db
   });
   return (
     <div className="min-h-screen bg-lastCream flex items-center justify-center px-4 py-20">

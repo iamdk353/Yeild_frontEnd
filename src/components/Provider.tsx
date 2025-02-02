@@ -7,6 +7,7 @@ import Login from "./Login";
 import { ClerkProvider } from "@clerk/clerk-react";
 import SignUp from "./Signup";
 import OnBoard from "./OnBoard";
+import { Toaster } from "react-hot-toast";
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 const Provider = () => {
@@ -23,6 +24,7 @@ const Provider = () => {
         },
       }}
     >
+      <Toaster />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
