@@ -1,30 +1,13 @@
 import { z } from "zod";
 
-export type FarmerDataType = {
+export type userType = {
   name: string;
   email: string;
-  contactNumber: string;
+  number: string;
   location: string;
-  cropType: string;
-  farmSize: string;
-  irrigationType: string;
-  income: string;
+  userType: "farmer" | "buyer";
+  onboard: boolean;
 };
-export type BuyerDataType = {
-  name: string;
-  email: string;
-  contactNumber: string;
-  location: string;
-};
-
-export interface signInFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  accountType: "farmer" | "buyer";
-  agreeToTerms: boolean;
-}
 
 export const signinFormSchema = z.object({
   name: z.string().min(1, "Name is required"),

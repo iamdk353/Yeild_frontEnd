@@ -16,8 +16,10 @@ import axios, { AxiosError } from "axios";
 // import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-
+import useStore from "../state/store";
 export default function OnboardingForm() {
+  const updateCurrentUserState = useStore((state) => state.updateUser);
+
   const redirect = useNavigate();
   const {
     register,
@@ -36,9 +38,17 @@ export default function OnboardingForm() {
         email: user?.primaryEmailAddress?.emailAddress,
       });
       const respData = await resp.data;
-
-      // console.log(respData);
+      if (user?.primaryEmailAddress?.emailAddress) {
+        console.log("updated to state");
+        updateCurrentUserState({
+          ...data,
+          userType,
+          email: user?.primaryEmailAddress?.emailAddress,
+          onboarded: true,
+        });
+      }
       toast.success(respData.msg);
+
       redirect("/");
     } catch (error) {
       if (error instanceof AxiosError) {

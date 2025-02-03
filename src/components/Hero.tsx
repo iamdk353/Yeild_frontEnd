@@ -32,7 +32,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      ;{/* Key Features */}
       <div id="features" className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-[#123524] text-center mb-16">
@@ -75,7 +74,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      ;{/* How It Works */}
       <div id="how-it-works" className="py-20 bg-[#123524] text-white">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center mb-16">How It Works</h2>
@@ -108,7 +106,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      ;{/* Benefits */}
       <div id="benefits" className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16">
@@ -157,7 +154,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      ;{/* Testimonials */}
       <div id="testimonials" className="py-20 bg-[#EFE3C2]">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-[#123524] text-center mb-16">
