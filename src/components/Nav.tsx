@@ -1,6 +1,6 @@
 import { Sprout, X, Menu, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { useLocation } from "react-router";
 import useStore from "../state/store";
 import axios from "axios";
@@ -41,8 +41,11 @@ const Nav = () => {
         } catch (error) {
           setUserLoading(false);
           console.log(error);
+        } finally {
+          setUserLoading(false);
         }
       }
+      setUserLoading(false);
     }
     main();
   }, [UpdateStateUser, isSignedIn, stateUser.onboarded]);
@@ -58,7 +61,10 @@ const Nav = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
 
-          <NavLink to={"/#"} className="flex items-center gap-2">
+          <NavLink
+            to={stateUser.onboarded ? "/app" : "/"}
+            className="flex items-center gap-2"
+          >
             <Sprout
               className={`w-6 h-6 ${
                 isScrolled ? "text-[#3E7B27]" : "text-[#3E7B27]/80"
@@ -75,7 +81,7 @@ const Nav = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {location.pathname === "/" && (
+            {location.pathname === "/" && !stateUser.onboarded && (
               <>
                 <a
                   href="#features"
@@ -113,9 +119,52 @@ const Nav = () => {
             )}
 
             {stateUser.onboarded ? (
-              <button className="bg-[#85A947] hover:bg-[#3E7B27] text-white px-4 py-2 rounded-lg font-semibold transition-all">
-                Hello ,{stateUser.name}
-              </button>
+              <>
+                <div className="hidden md:flex items-center gap-8">
+                  <Link
+                    to="top-buyers"
+                    className={`${
+                      isScrolled ? "text-[#123524]" : "text-thirdGreen"
+                    } hover:text-[#85A947] transition-colors`}
+                  >
+                    Top Buyers
+                  </Link>
+                  <Link
+                    to="top-farmers"
+                    className={`${
+                      isScrolled ? "text-[#123524]" : "text-thirdGreen"
+                    } hover:text-[#85A947] transition-colors`}
+                  >
+                    Top Farmers
+                  </Link>
+                  <Link
+                    to="dashboard"
+                    className={`${
+                      isScrolled ? "text-[#123524]" : "text-thirdGreen"
+                    } hover:text-[#85A947] transition-colors`}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    to="create-contract"
+                    className={`${
+                      isScrolled ? "text-[#123524]" : "text-thirdGreen"
+                    } hover:text-[#85A947] transition-colors`}
+                  >
+                    Create Contract
+                  </Link>
+                </div>
+                <Link
+                  to="profile"
+                  className={`${
+                    isScrolled ? "text-[#123524]" : "text-thirdGreen"
+                  } hover:text-[#85A947] transition-colors`}
+                >
+                  <button className="bg-[#85A947] hover:bg-[#3E7B27] text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                    Hello , {stateUser.name}
+                  </button>
+                </Link>
+              </>
             ) : userLoading ? (
               <button className="bg-[#85A947] hover:bg-[#3E7B27] text-white px-4 py-2 rounded-lg font-semibold transition-all">
                 <Loader2 className="animate-spin" />
@@ -130,6 +179,7 @@ const Nav = () => {
               </NavLink>
             )}
           </div>
+          {/* app navigation */}
 
           {/* Mobile Menu Button */}
           <button
