@@ -62,8 +62,9 @@ const Nav = () => {
           {/* Logo */}
 
           <NavLink
-            to={stateUser.onboarded ? "/app" : "/"}
+            to={stateUser.onboarded ? "/app#" : "/#"}
             className="flex items-center gap-2"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             <Sprout
               className={`w-6 h-6 ${

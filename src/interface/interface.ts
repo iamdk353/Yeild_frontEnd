@@ -19,3 +19,11 @@ export const signinFormSchema = z.object({
 });
 
 export type signinFormSchemaType = z.infer<typeof signinFormSchema>;
+
+export interface contractType {
+  buyerName: string;
+  productType: string;
+  quantity: string;
+  price: number;
+  deliveryDate: string;
+}
