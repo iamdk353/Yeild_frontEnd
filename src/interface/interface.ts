@@ -20,10 +20,12 @@ export const signinFormSchema = z.object({
 
 export type signinFormSchemaType = z.infer<typeof signinFormSchema>;
 
-export interface contractType {
+export interface productType {
   buyerName: string;
-  productType: string;
+  buyerId: string;
+  productId: Number;
+  productName: string;
   quantity: string;
-  price: number;
+  price: Number;
   deliveryDate: string;
 }

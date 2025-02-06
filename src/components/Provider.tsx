@@ -11,11 +11,14 @@ import { Toaster } from "react-hot-toast";
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 import useStore from "../state/store";
 import Dashboard from "../App/ui/Dashboard";
-import CreateContract from "../App/ui/CreateContract";
-import Contracts from "../App/ui/Contracts";
+import CreateContract from "../App/ui/createProducts";
+
 import Profile from "../App/ui/Profile";
 import TopBuyers from "./TopBuyers";
 import TopFarmers from "./TopFarmers";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+const queryClient = new QueryClient();
 
 const Provider = () => {
   const user = useStore((state) => state.user);
@@ -32,36 +35,39 @@ const Provider = () => {
         },
       }}
     >
-      <Toaster />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route
+                index
+                element={!user.onboarded ? <Hero /> : <Navigate to="app" />}
+              />
+              <Route path="signup" element={<SignUp />} />
+              <Route path="login" element={<Login />} />
+              <Route path="onboard" element={<OnBoard />} />
+            </Route>
             <Route
-              index
-              element={!user.onboarded ? <Hero /> : <Navigate to="app" />}
-            />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="login" element={<Login />} />
-            <Route path="onboard" element={<OnBoard />} />
-          </Route>
-          <Route
-            path="app"
-            element={
-              <>
-                <Nav />
-                <Outlet />
-              </>
-            }
-          >
-            <Route index element={<Contracts />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="create-contract" element={<CreateContract />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="top-buyers" element={<TopBuyers />} />
-            <Route path="top-farmers" element={<TopFarmers />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+              path="app"
+              element={
+                <>
+                  <Nav />
+                  <Outlet />
+                </>
+              }
+            >
+              <Route index element={<>products</>} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="create-product" element={<CreateContract />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="top-buyers" element={<TopBuyers />} />
+              <Route path="top-farmers" element={<TopFarmers />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </ClerkProvider>
   );
 };

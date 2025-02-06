@@ -14,7 +14,7 @@ const Nav = () => {
   const UpdateStateUser = useStore((state) => state.updateUser);
   const userLoading = useStore((state) => state.userLoading);
   useEffect(() => {
-    console.log("useload state", userLoading);
+    // console.log("useload state", userLoading);
   }, [userLoading]);
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +25,7 @@ const Nav = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   useEffect(() => {
-    console.log("nav monut");
+    // console.log("nav monut");
     async function main() {
       setUserLoading(true);
       if (stateUser.onboarded || isSignedIn) {
@@ -34,13 +34,13 @@ const Nav = () => {
             `/user/${user?.primaryEmailAddress?.emailAddress}`
           );
           const data = await resp.data;
-          console.log(data.msg);
+          // console.log(data.msg);
           UpdateStateUser(data.msg);
-          console.log("updated user state from DB", stateUser);
+          // console.log("updated user state from DB", stateUser);
           setUserLoading(false);
         } catch (error) {
           setUserLoading(false);
-          console.log(error);
+          // console.log(error);
         } finally {
           setUserLoading(false);
         }
@@ -146,14 +146,16 @@ const Nav = () => {
                   >
                     Dashboard
                   </Link>
-                  <Link
-                    to="create-contract"
-                    className={`${
-                      isScrolled ? "text-[#123524]" : "text-thirdGreen"
-                    } hover:text-[#85A947] transition-colors`}
-                  >
-                    Create Contract
-                  </Link>
+                  {stateUser.userType === "buyer" && (
+                    <Link
+                      to="create-product"
+                      className={`${
+                        isScrolled ? "text-[#123524]" : "text-thirdGreen"
+                      } hover:text-[#85A947] transition-colors`}
+                    >
+                      Create Product
+                    </Link>
+                  )}
                 </div>
                 <Link
                   to="profile"
