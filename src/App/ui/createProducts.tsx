@@ -74,7 +74,7 @@ const createProduct = () => {
     }
   });
   return (
-    <div className="min-h-screen pt-20 bg-lastCream/40">
+    <div className="min-h-screen pt-25 bg-lastCream/40">
       <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg bg-white">
         <h2 className="text-2xl font-bold mb-6 text-thirdGreen">
           Create Product
@@ -137,7 +137,7 @@ const createProduct = () => {
               htmlFor="price"
               className="block text-sm font-medium mb-1 text-secondaryGreen"
             >
-              Price (in rupees)
+              Price (in rupees per quintal)
             </label>
             <input
               required

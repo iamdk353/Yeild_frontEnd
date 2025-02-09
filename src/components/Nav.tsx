@@ -1,4 +1,4 @@
-import { Sprout, X, Menu, Loader2 } from "lucide-react";
+import { Sprout, Loader2, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router";
 import { useLocation } from "react-router";
@@ -6,7 +6,6 @@ import useStore from "../state/store";
 import axios from "axios";
 import { useUser } from "@clerk/clerk-react";
 const Nav = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const setUserLoading = useStore((state) => state.setUserLoading);
   const { user, isSignedIn } = useUser();
@@ -58,7 +57,7 @@ const Nav = () => {
       }`}
     >
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-36 md:h-16 flex-col py-10 md:flex-row ">
           {/* Logo */}
 
           <NavLink
@@ -81,9 +80,9 @@ const Nav = () => {
           </NavLink>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="flex  md:flex-row items-center gap-8">
             {location.pathname === "/" && !stateUser.onboarded && (
-              <>
+              <div className="hidden md:flex items-center gap-8">
                 <a
                   href="#features"
                   className={`${
@@ -116,35 +115,19 @@ const Nav = () => {
                 >
                   Success Stories
                 </a>
-              </>
+              </div>
             )}
 
             {stateUser.onboarded ? (
               <>
-                <div className="hidden md:flex items-center gap-8">
+                <div className="flex  items-center gap-8">
                   <Link
-                    to="top-buyers"
+                    to="my-contracts"
                     className={`${
                       isScrolled ? "text-[#123524]" : "text-thirdGreen"
                     } hover:text-[#85A947] transition-colors`}
                   >
-                    Top Buyers
-                  </Link>
-                  <Link
-                    to="top-farmers"
-                    className={`${
-                      isScrolled ? "text-[#123524]" : "text-thirdGreen"
-                    } hover:text-[#85A947] transition-colors`}
-                  >
-                    Top Farmers
-                  </Link>
-                  <Link
-                    to="dashboard"
-                    className={`${
-                      isScrolled ? "text-[#123524]" : "text-thirdGreen"
-                    } hover:text-[#85A947] transition-colors`}
-                  >
-                    Dashboard
+                    My Contracts
                   </Link>
                   {stateUser.userType === "buyer" && (
                     <Link
@@ -164,7 +147,7 @@ const Nav = () => {
                   } hover:text-[#85A947] transition-colors`}
                 >
                   <button className="bg-[#85A947] hover:bg-[#3E7B27] text-white px-4 py-2 rounded-lg font-semibold transition-all">
-                    Hello , {stateUser.name}
+                    <User />
                   </button>
                 </Link>
               </>
@@ -175,7 +158,7 @@ const Nav = () => {
             ) : (
               <NavLink to="signup">
                 {location.pathname !== "/onboard" && (
-                  <button className="bg-[#85A947] hover:bg-[#3E7B27] text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                  <button className="bg-[#85A947] hover:bg-[#3E7B27] text-white px-4 py-2 rounded-lg font-semibold transition-all my-5 md:my-0">
                     Get Started
                   </button>
                 )}
@@ -183,62 +166,7 @@ const Nav = () => {
             )}
           </div>
           {/* app navigation */}
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X
-                className={`w-6 h-6 ${
-                  isScrolled ? "text-[#123524]" : "text-white"
-                }`}
-              />
-            ) : (
-              <Menu
-                className={`w-6 h-6 ${
-                  isScrolled ? "text-[#123524]" : "text-white"
-                }`}
-              />
-            )}
-          </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4">
-            <div className="flex flex-col gap-4">
-              <a
-                href="#features"
-                className="text-[#123524] hover:text-[#85A947] transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#how-it-works"
-                className="text-[#123524] hover:text-[#85A947] transition-colors"
-              >
-                How It Works
-              </a>
-              <a
-                href="#benefits"
-                className="text-[#123524] hover:text-[#85A947] transition-colors"
-              >
-                Benefits
-              </a>
-              <a
-                href="#testimonials"
-                className="text-[#123524] hover:text-[#85A947] transition-colors"
-              >
-                Success Stories
-              </a>
-              <button className="bg-[#85A947] hover:bg-[#3E7B27] text-white px-4 py-2 rounded-lg font-semibold transition-all w-full">
-                Get Started
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );

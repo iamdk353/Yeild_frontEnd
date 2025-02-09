@@ -10,14 +10,17 @@ import OnBoard from "./OnBoard";
 import { Toaster } from "react-hot-toast";
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 import useStore from "../state/store";
-import Dashboard from "../App/ui/Dashboard";
+
 import CreateContract from "../App/ui/createProducts";
 
 import Profile from "../App/ui/Profile";
-import TopBuyers from "./TopBuyers";
-import TopFarmers from "./TopFarmers";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+import ProductsList from "./ProductsList";
+import SingleProduct from "./SingleProduct";
+import MyContracts from "../App/ui/MyContracts";
+import AgreementCardPreview from "./AgreementPreview";
 const queryClient = new QueryClient();
 
 const Provider = () => {
@@ -36,7 +39,7 @@ const Provider = () => {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         <Toaster />
         <BrowserRouter>
           <Routes>
@@ -58,12 +61,18 @@ const Provider = () => {
                 </>
               }
             >
-              <Route index element={<>products</>} />
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route index element={<ProductsList />} />
+              <Route path="product/:id" element={<SingleProduct />} />
+              <Route
+                path="product-preview/:id"
+                element={<AgreementCardPreview />}
+              />
+              {/* <Route path="dashboard" element={<Dashboard />} /> */}
+              <Route path="my-contracts" element={<MyContracts />} />
               <Route path="create-product" element={<CreateContract />} />
               <Route path="profile" element={<Profile />} />
-              <Route path="top-buyers" element={<TopBuyers />} />
-              <Route path="top-farmers" element={<TopFarmers />} />
+              {/* <Route path="top-buyers" element={<TopBuyers />} />
+              <Route path="top-farmers" element={<TopFarmers />} /> */}
             </Route>
           </Routes>
         </BrowserRouter>

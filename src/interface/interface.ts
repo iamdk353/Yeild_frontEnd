@@ -29,3 +29,19 @@ export interface productType {
   price: Number;
   deliveryDate: string;
 }
+
+export interface AgreementType extends productType {
+  farmerTerms: string | null;
+  buyerTerms: string | null;
+  isFetching: boolean;
+}
+
+export interface ServerResponseType {
+  code: number;
+  msg: AgreementType[];
+}
+export interface MyContractsType {
+  productId: number;
+  productName: string;
+  buyerEmail: string;
+}
