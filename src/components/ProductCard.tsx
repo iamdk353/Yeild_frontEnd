@@ -1,17 +1,9 @@
-import {
-  User,
-  Calendar,
-  Wheat,
-  IndianRupee,
-  Box,
-  DivideIcon,
-} from "lucide-react";
+import { User, Calendar, Wheat, IndianRupee, Box } from "lucide-react";
 
 import { productType } from "../interface/interface";
 import { Link } from "react-router";
 import useStore from "../state/store";
 const ProductCard: React.FC<productType> = ({
-  buyerId,
   buyerName,
   deliveryDate,
   price,
